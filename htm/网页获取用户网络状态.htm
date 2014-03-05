@@ -1,0 +1,16 @@
+<p>为了方便开发者根据用户的网络状态来提供不同质量的服务，公众号可以在公众号内部的网页中使用JavaScript代码调用来获取网络状态。
+</p><p><b>接口调用代码（JavaScript）</b>
+</p>
+<pre>WeixinJSBridge.invoke('getNetworkType',{},
+		function(e){
+	    	WeixinJSBridge.log(e.err_msg);
+	    });
+</pre>
+<p><b>返回说明</b>
+</p><p>获取用户网络状态的返回值如下：
+</p>
+<pre>network_type:wifi wifi网络
+network_type:edge 非wifi,包含3G/2G
+network_type:fail 网络断开连接
+network_type:wwan（2g或者3g）
+</pre>

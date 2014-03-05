@@ -1,0 +1,11 @@
+<p>公众号在有需要时（如认为用户在该页面不会用到浏览器前进后退功能），可在网页中通过JavaScript代码隐藏网页底部导航栏。
+</p><p><img alt="底部导航栏.jpg" src="img/%E5%BA%95%E9%83%A8%E5%AF%BC%E8%88%AA%E6%A0%8F.jpg" width="600" height="516">
+</p><p><b>接口调用代码（JavaScript）</b>
+</p>
+<pre>document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+WeixinJSBridge.call('hideToolbar');
+});
+</pre>
+<p><b>返回说明</b>
+</p><p>隐藏底部导航栏没有返回值。（需要显示顶部导航栏，请把hideToolbar换成showToolbar）
+</p>

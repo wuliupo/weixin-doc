@@ -1,0 +1,122 @@
+<p>在关注者与公众号产生消息交互后，公众号可获得关注者的OpenID（加密后的微信号，每个用户对每个公众号的OpenID是唯一的。对于不同公众号，同一用户的openid不同）。公众号可通过本接口来根据OpenID获取用户基本信息，包括昵称、头像、性别、所在城市、语言和关注时间。
+</p>
+<h3> <span class="mw-headline" id=".E8.8E.B7.E5.8F.96.E7.94.A8.E6.88.B7.E5.9F.BA.E6.9C.AC.E4.BF.A1.E6.81.AF"><b>获取用户基本信息</b></span></h3>
+<p>开发者可通过OpenID来获取用户基本信息。请使用https协议。
+</p><p><b>接口调用请求说明</b>
+</p>
+<pre>http请求方式: GET
+<a href="https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&amp;openid=OPENID&amp;lang=zh_CN" class="external free" rel="nofollow" target="_blank">https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&amp;openid=OPENID&amp;lang=zh_CN</a>
+</pre>
+<p><b>参数说明</b>
+</p>
+<table border="1" cellspacing="0" cellpadding="4" align="center" width="640px">
+<tbody><tr>
+<th style="width:120px">参数
+</th>
+<th style="width:120px">是否必须
+</th>
+<th>说明
+</th></tr>
+<tr>
+<td> access_token
+</td>
+<td> 是
+</td>
+<td> 调用接口凭证
+</td></tr>
+<tr>
+<td> openid
+</td>
+<td> 是
+</td>
+<td> 普通用户的标识，对当前公众号唯一
+</td></tr>
+<tr>
+<td> lang
+</td>
+<td> 否
+</td>
+<td> 返回国家地区语言版本，zh_CN 简体，zh_TW 繁体，en 英语
+</td></tr>
+</tbody></table>
+<p><b>返回说明</b>
+</p><p>正常情况下，微信会返回下述JSON数据包给公众号：
+</p>
+<pre>{
+    "subscribe": 1, 
+    "openid": "o6_bmjrPTlm6_2sgVt7hMZOPfL2M", 
+    "nickname": "Band", 
+    "sex": 1, 
+    "language": "zh_CN", 
+    "city": "广州", 
+    "province": "广东", 
+    "country": "中国", 
+    "headimgurl":    "<a href="http://wx.qlogo.cn/mmopen/g3MonUZtNHkdmzicIlibx6iaFqAc56vxLSUfpb6n5WKSYVY0ChQKkiaJSgQ1dZuTOgvLLrhJbERQQ4eMsv84eavHiaiceqxibJxCfHe/0" class="external free" rel="nofollow" target="_blank">http://wx.qlogo.cn/mmopen/g3MonUZtNHkdmzicIlibx6iaFqAc56vxLSUfpb6n5WKSYVY0ChQKkiaJSgQ1dZuTOgvLLrhJbERQQ4eMsv84eavHiaiceqxibJxCfHe/0</a>", 
+   "subscribe_time": 1382694957
+}
+</pre>
+<p><b>参数说明</b>
+</p>
+<table border="1" cellspacing="0" cellpadding="4" align="center" width="640px">
+<tbody><tr>
+<th style="width:240px">参数
+</th>
+<th>说明
+</th></tr>
+<tr>
+<td> subscribe
+</td>
+<td> 用户是否订阅该公众号标识，值为0时，代表此用户没有关注该公众号，拉取不到其余信息。
+</td></tr>
+<tr>
+<td> openid
+</td>
+<td> 用户的标识，对当前公众号唯一
+</td></tr>
+<tr>
+<td> nickname
+</td>
+<td> 用户的昵称
+</td></tr>
+<tr>
+<td> sex
+</td>
+<td> 用户的性别，值为1时是男性，值为2时是女性，值为0时是未知
+</td></tr>
+<tr>
+<td> city
+</td>
+<td> 用户所在城市
+</td></tr>
+<tr>
+<td> country
+</td>
+<td> 用户所在国家
+</td></tr>
+<tr>
+<td> province
+</td>
+<td> 用户所在省份
+</td></tr>
+<tr>
+<td> language
+</td>
+<td> 用户的语言，简体中文为zh_CN
+</td></tr>
+<tr>
+<td> headimgurl
+</td>
+<td> 用户头像，最后一个数值代表正方形头像大小（有0、46、64、96、132数值可选，0代表640*640正方形头像），用户没有头像时该项为空
+</td></tr>
+<tr>
+<td> subscribe_time
+</td>
+<td> 用户关注时间，为时间戳。如果用户曾多次关注，则取最后关注时间
+</td></tr></tbody></table>
+<p>错误时微信会返回错误码等信息，JSON数据包示例如下（该示例为AppID无效错误）:
+</p>
+<pre>{"errcode":40013,"errmsg":"invalid appid"}
+</pre>
+<p><a href="#">全局返回码说明</a>
+</p><p><a href="https://mp.weixin.qq.com/debug/cgi-bin/apiinfo?t=index&amp;type=用户管理&amp;form=获取用户基本信息接口%20/user/info" class="external text" rel="nofollow" target="_blank">使用网页调试工具调试该接口</a>
+</p>

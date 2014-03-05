@@ -1,0 +1,11 @@
+<p>公众号在有需要时（如不需要用户分享某个页面），可在网页中通过JavaScript代码隐藏网页右上角按钮。
+</p><p><img alt="右上角按钮.jpg" src="img/600px-%E5%8F%B3%E4%B8%8A%E8%A7%92%E6%8C%89%E9%92%AE.jpg" width="600" height="491">
+</p><p><b>接口调用代码（JavaScript）</b>
+</p>
+<pre>document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+WeixinJSBridge.call('hideOptionMenu');
+});
+</pre>
+<p><b>返回说明</b>
+</p><p>隐藏底部导航栏没有返回值。（需要显示请把hideOptionMenu换成showOptionMenu）
+</p>

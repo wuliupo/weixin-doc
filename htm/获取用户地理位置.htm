@@ -1,0 +1,67 @@
+<p>开通了上报地理位置接口的公众号，用户在关注后进入公众号会话时，<b>会弹框让用户确认是否允许公众号使用其地理位置</b>。弹框只在关注后出现一次，用户以后可以在公众号详情页面进行操作。
+</p>
+<h3> <span class="mw-headline" id=".E8.8E.B7.E5.8F.96.E7.94.A8.E6.88.B7.E5.9C.B0.E7.90.86.E4.BD.8D.E7.BD.AE"><b>获取用户地理位置</b></span></h3>
+<p>获取用户地理位置的方式有两种，一种是仅在进入会话时上报一次，一种是进入会话后每隔5秒上报一次。公众号可以在公众平台网站中设置。
+</p><p>用户同意上报地理位置后，每次进入公众号会话时，都会在进入时上报地理位置，或在进入会话后每5秒上报一次地理位置，上报地理位置以推送XML数据包到开发者填写的URL来实现。
+</p><p>推送XML数据包示例：
+</p>
+<pre>&lt;xml&gt;
+&lt;ToUserName&gt;&lt;![CDATA[toUser]]&gt;&lt;/ToUserName&gt;
+&lt;FromUserName&gt;&lt;![CDATA[fromUser]]&gt;&lt;/FromUserName&gt;
+&lt;CreateTime&gt;123456789&lt;/CreateTime&gt;
+&lt;MsgType&gt;&lt;![CDATA[event]]&gt;&lt;/MsgType&gt;
+&lt;Event&gt;&lt;![CDATA[LOCATION]]&gt;&lt;/Event&gt;
+&lt;Latitude&gt;23.137466&lt;/Latitude&gt;
+&lt;Longitude&gt;113.352425&lt;/Longitude&gt;
+&lt;Precision&gt;119.385040&lt;/Precision&gt;
+&lt;/xml&gt;
+</pre>
+<p>参数说明：
+</p>
+<table border="1" cellspacing="0" cellpadding="4" align="center">
+<tbody><tr>
+<th style="width:180px">参数
+</th>
+<th style="width:470px">描述
+</th></tr>
+<tr>
+<td> ToUserName
+</td>
+<td> <b>开发者</b>微信号
+</td></tr>
+<tr>
+<td> FromUserName
+</td>
+<td> 发送方帐号（一个OpenID）
+</td></tr>
+<tr>
+<td> CreateTime
+</td>
+<td> 消息创建时间 （整型）
+</td></tr>
+<tr>
+<td> MsgType
+</td>
+<td> 消息类型，event
+</td></tr>
+<tr>
+<td> Event
+</td>
+<td> 事件类型，LOCATION
+</td></tr>
+<tr>
+<td> Latitude
+</td>
+<td> 地理位置纬度
+</td></tr>
+<tr>
+<td> Longitude
+</td>
+<td> 地理位置经度
+</td></tr>
+<tr>
+<td> Precision
+</td>
+<td> 地理位置精度
+</td></tr>
+</tbody></table>

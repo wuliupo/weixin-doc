@@ -1,0 +1,192 @@
+<p>公众号调用接口并不是无限制的。为了防止公众号的程序错误而引发微信服务器负载异常，默认情况下，每个公众号调用接口都不能超过一定限制，当超过一定限制时，调用对应接口会收到如下错误返回码：
+</p>
+<pre>{"errcode":45009,"errmsg":"api freq out of limit"}
+</pre>
+<p><b>各接口调用频率限制如下：</b>
+</p>
+<table border="1" cellspacing="0" cellpadding="4" align="center" width="640px">
+<tbody><tr>
+<th style="width:320px">接口
+</th>
+<th>每日限额
+</th></tr>
+<tr>
+<td> 获取access_token
+</td>
+<td> 2000
+</td></tr>
+<tr>
+<td> 自定义菜单创建
+</td>
+<td> 1000
+</td></tr>
+<tr>
+<td> 自定义菜单查询
+</td>
+<td> 10000
+</td></tr>
+<tr>
+<td> 自定义菜单删除
+</td>
+<td> 1000
+</td></tr>
+<tr>
+<td> 创建分组
+</td>
+<td> 1000
+</td></tr>
+<tr>
+<td> 获取分组
+</td>
+<td> 1000
+</td></tr>
+<tr>
+<td> 修改分组名
+</td>
+<td> 1000
+</td></tr>
+<tr>
+<td> 移动用户分组
+</td>
+<td> 100000
+</td></tr>
+<tr>
+<td> 上传多媒体文件
+</td>
+<td> 5000
+</td></tr>
+<tr>
+<td> 下载多媒体文件
+</td>
+<td> 10000
+</td></tr>
+<tr>
+<td> 发送客服消息
+</td>
+<td> 500000
+</td></tr>
+<tr>
+<td> 获取带参数的二维码
+</td>
+<td> 100000
+</td></tr>
+<tr>
+<td> 获取关注者列表
+</td>
+<td> 500
+</td></tr>
+<tr>
+<td> 获取用户基本信息
+</td>
+<td> 5000000
+</td></tr>
+<tr>
+<td> 获取网页授权access_token
+</td>
+<td> 2000000
+</td></tr>
+<tr>
+<td> 刷新网页授权access_token
+</td>
+<td> 2000000
+</td></tr>
+<tr>
+<td> 网页授权获取用户信息
+</td>
+<td> 2000000
+</td></tr>
+</tbody></table>
+<p><b>请注意，在测试号申请页中申请的测试号，接口调用频率限制如下：</b>
+</p>
+<table border="1" cellspacing="0" cellpadding="4" align="center" width="640px">
+<tbody><tr>
+<th style="width:320px">接口
+</th>
+<th>每日限额
+</th></tr>
+<tr>
+<td> 获取access_token
+</td>
+<td> 200
+</td></tr>
+<tr>
+<td> 自定义菜单创建
+</td>
+<td> 100
+</td></tr>
+<tr>
+<td> 自定义菜单查询
+</td>
+<td> 1000
+</td></tr>
+<tr>
+<td> 自定义菜单删除
+</td>
+<td> 100
+</td></tr>
+<tr>
+<td> 创建分组
+</td>
+<td> 100
+</td></tr>
+<tr>
+<td> 获取分组
+</td>
+<td> 100
+</td></tr>
+<tr>
+<td> 修改分组名
+</td>
+<td> 100
+</td></tr>
+<tr>
+<td> 移动用户分组
+</td>
+<td> 1000
+</td></tr>
+<tr>
+<td> 上传多媒体文件
+</td>
+<td> 500
+</td></tr>
+<tr>
+<td> 下载多媒体文件
+</td>
+<td> 1000
+</td></tr>
+<tr>
+<td> 发送客服消息
+</td>
+<td> 50000
+</td></tr>
+<tr>
+<td> 获取带参数的二维码
+</td>
+<td> 10000
+</td></tr>
+<tr>
+<td> 获取关注者列表
+</td>
+<td> 100
+</td></tr>
+<tr>
+<td> 获取用户基本信息
+</td>
+<td> 500000
+</td></tr>
+<tr>
+<td> 获取网页授权access_token
+</td>
+<td> 200000
+</td></tr>
+<tr>
+<td> 刷新网页授权access_token
+</td>
+<td> 200000
+</td></tr>
+<tr>
+<td> 网页授权获取用户信息
+</td>
+<td> 200000
+</td></tr>
+</tbody></table>

@@ -1,0 +1,308 @@
+<p>开发者可以使用接口，对公众平台的分组进行查询、创建、修改操作，也可以使用接口在需要时移动用户到某个分组。
+</p>
+<table id="toc" class="toc"><tbody><tr><td><div id="toctitle"><h2>目录</h2> <span class="toctoggle">[<a id="togglelink" class="internal" href="#">隐藏</a>]</span></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#.E5.88.9B.E5.BB.BA.E5.88.86.E7.BB.84"><span class="tocnumber">1</span> <span class="toctext">创建分组</span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="#.E6.9F.A5.E8.AF.A2.E6.89.80.E6.9C.89.E5.88.86.E7.BB.84"><span class="tocnumber">2</span> <span class="toctext">查询所有分组</span></a></li>
+<li class="toclevel-1 tocsection-3"><a href="#.E6.9F.A5.E8.AF.A2.E7.94.A8.E6.88.B7.E6.89.80.E5.9C.A8.E5.88.86.E7.BB.84"><span class="tocnumber">3</span> <span class="toctext">查询用户所在分组</span></a></li>
+<li class="toclevel-1 tocsection-4"><a href="#.E4.BF.AE.E6.94.B9.E5.88.86.E7.BB.84.E5.90.8D"><span class="tocnumber">4</span> <span class="toctext">修改分组名</span></a></li>
+<li class="toclevel-1 tocsection-5"><a href="#.E7.A7.BB.E5.8A.A8.E7.94.A8.E6.88.B7.E5.88.86.E7.BB.84"><span class="tocnumber">5</span> <span class="toctext">移动用户分组</span></a></li>
+</ul>
+</td></tr></tbody></table>
+<h3> <span class="mw-headline" id=".E5.88.9B.E5.BB.BA.E5.88.86.E7.BB.84"><b>创建分组</b></span></h3>
+<p>一个公众账号，最多支持创建500个分组。
+<b>接口调用请求说明</b>
+</p>
+<pre>http请求方式: POST（请使用https协议）
+<a href="https://api.weixin.qq.com/cgi-bin/groups/create?access_token=ACCESS_TOKEN" class="external free" rel="nofollow" target="_blank">https://api.weixin.qq.com/cgi-bin/groups/create?access_token=ACCESS_TOKEN</a>
+POST数据格式：json
+POST数据例子：{"group":{"name":"test"}}
+</pre>
+<p><b>参数说明</b>
+</p>
+<table border="1" cellspacing="0" cellpadding="4" align="center" width="640px">
+<tbody><tr>
+<th style="width:240px">参数
+</th>
+<th>说明
+</th></tr>
+<tr>
+<td> access_token
+</td>
+<td> 调用接口凭证
+</td></tr>
+<tr>
+<td> name
+</td>
+<td> 分组名字（30个字符以内）
+</td></tr>
+</tbody></table>
+<p><b>返回说明</b>
+正常时的返回JSON数据包示例：
+</p>
+<pre>{
+    "group": {
+        "id": 107, 
+        "name": "test"
+    }
+}
+</pre>
+<p><b>参数说明</b>
+</p>
+<table border="1" cellspacing="0" cellpadding="4" align="center" width="640px">
+<tbody><tr>
+<th style="width:240px">参数
+</th>
+<th>说明
+</th></tr>
+<tr>
+<td> id
+</td>
+<td> 分组id，由微信分配
+</td></tr>
+<tr>
+<td> name
+</td>
+<td> 分组名字，UTF8编码
+</td></tr></tbody></table>
+<p>错误时的JSON数据包示例（该示例为AppID无效错误）：
+</p>
+<pre>{"errcode":40013,"errmsg":"invalid appid"}
+</pre>
+<p><a href="#">全局返回码说明</a>
+</p><p><a href="https://mp.weixin.qq.com/debug/cgi-bin/apiinfo?t=index&amp;type=用户管理&amp;form=创建分组接口%20/groups/create" class="external text" rel="nofollow" target="_blank">使用网页调试工具调试该接口</a>
+</p><p><br>
+</p>
+<h3> <span class="mw-headline" id=".E6.9F.A5.E8.AF.A2.E6.89.80.E6.9C.89.E5.88.86.E7.BB.84"><b>查询所有分组</b></span></h3>
+<p><b>接口调用请求说明</b>
+</p>
+<pre>http请求方式: GET（请使用https协议）
+<a href="https://api.weixin.qq.com/cgi-bin/groups/get?access_token=ACCESS_TOKEN" class="external free" rel="nofollow" target="_blank">https://api.weixin.qq.com/cgi-bin/groups/get?access_token=ACCESS_TOKEN</a>
+</pre>
+<p><b>参数说明</b>
+</p>
+<table border="1" cellspacing="0" cellpadding="4" align="center" width="640px">
+<tbody><tr>
+<th style="width:240px">参数
+</th>
+<th>说明
+</th></tr>
+<tr>
+<td> access_token
+</td>
+<td> 调用接口凭证
+</td></tr>
+</tbody></table>
+<p><b>返回说明</b>
+正常时的返回JSON数据包示例：
+</p>
+<pre>{
+    "groups": [
+        {
+            "id": 0, 
+            "name": "未分组", 
+            "count": 72596
+        }, 
+        {
+            "id": 1, 
+            "name": "黑名单", 
+            "count": 36
+        }, 
+        {
+            "id": 2, 
+            "name": "星标组", 
+            "count": 8
+        }, 
+        {
+            "id": 104, 
+            "name": "华东媒", 
+            "count": 4
+        }, 
+        {
+            "id": 106, 
+            "name": "★不测试组★", 
+            "count": 1
+        }
+    ]
+}
+</pre>
+<p><b>参数说明</b>
+</p>
+<table border="1" cellspacing="0" cellpadding="4" align="center" width="640px">
+<tbody><tr>
+<th style="width:240px">参数
+</th>
+<th>说明
+</th></tr>
+<tr>
+<td> groups
+</td>
+<td> 公众平台分组信息列表
+</td></tr>
+<tr>
+<td> id
+</td>
+<td> 分组id，由微信分配
+</td></tr>
+<tr>
+<td> name
+</td>
+<td> 分组名字，UTF8编码
+</td></tr>
+<tr>
+<td> count
+</td>
+<td> 分组内用户数量
+</td></tr>
+</tbody></table>
+<p>错误时的JSON数据包示例（该示例为AppID无效错误）：
+</p>
+<pre>{"errcode":40013,"errmsg":"invalid appid"}
+</pre>
+<p><a href="#">全局返回码说明</a>
+</p><p><a href="https://mp.weixin.qq.com/debug/cgi-bin/apiinfo?t=index&amp;type=用户管理&amp;form=查看分组接口%20/groups/get" class="external text" rel="nofollow" target="_blank">使用网页调试工具调试该接口</a>
+</p>
+<h3> <span class="mw-headline" id=".E6.9F.A5.E8.AF.A2.E7.94.A8.E6.88.B7.E6.89.80.E5.9C.A8.E5.88.86.E7.BB.84"><b>查询用户所在分组</b></span></h3>
+<p>通过用户的OpenID查询其所在的GroupID。
+<b>接口调用请求说明</b>
+</p>
+<pre>http请求方式: POST（请使用https协议）
+<a href="https://api.weixin.qq.com/cgi-bin/groups/getid?access_token=ACCESS_TOKEN" class="external free" rel="nofollow" target="_blank">https://api.weixin.qq.com/cgi-bin/groups/getid?access_token=ACCESS_TOKEN</a>
+POST数据格式：json
+POST数据例子：{"openid":"od8XIjsmk6QdVTETa9jLtGWA6KBc"}
+</pre>
+<p><b>参数说明</b>
+</p>
+<table border="1" cellspacing="0" cellpadding="4" align="center" width="640px">
+<tbody><tr>
+<th style="width:240px">参数
+</th>
+<th>说明
+</th></tr>
+<tr>
+<td> access_token
+</td>
+<td> 调用接口凭证
+</td></tr>
+<tr>
+<td> openid
+</td>
+<td> 用户的OpenID
+</td></tr>
+</tbody></table>
+<p><b>返回说明</b>
+正常时的返回JSON数据包示例：
+</p>
+<pre>{
+    "groupid": 102
+}
+</pre>
+<p><b>参数说明</b>
+</p>
+<table border="1" cellspacing="0" cellpadding="4" align="center" width="640px">
+<tbody><tr>
+<th style="width:240px">参数
+</th>
+<th>说明
+</th></tr>
+<tr>
+<td> groupid
+</td>
+<td> 用户所属的groupid
+</td></tr>
+</tbody></table>
+<p>错误时的JSON数据包示例（该示例为OpenID无效错误）：
+</p>
+<pre>{"errcode":40003,"errmsg":"invalid openid"}
+</pre>
+<p><a href="#">全局返回码说明</a>
+</p><p><a href="https://mp.weixin.qq.com/debug/cgi-bin/apiinfo?t=index&amp;type=用户管理&amp;form=查询用户分组id接口%20/groups/getid" class="external text" rel="nofollow" target="_blank">使用网页调试工具调试该接口</a>
+</p>
+<h3> <span class="mw-headline" id=".E4.BF.AE.E6.94.B9.E5.88.86.E7.BB.84.E5.90.8D"><b>修改分组名</b></span></h3>
+<p><b>接口调用请求说明</b>
+</p>
+<pre>http请求方式: POST（请使用https协议）
+<a href="https://api.weixin.qq.com/cgi-bin/groups/update?access_token=ACCESS_TOKEN" class="external free" rel="nofollow" target="_blank">https://api.weixin.qq.com/cgi-bin/groups/update?access_token=ACCESS_TOKEN</a>
+POST数据格式：json
+POST数据例子：{"group":{"id":108,"name":"test2_modify2"}}
+</pre>
+<p><b>参数说明</b>
+</p>
+<table border="1" cellspacing="0" cellpadding="4" align="center" width="640px">
+<tbody><tr>
+<th style="width:240px">参数
+</th>
+<th>说明
+</th></tr>
+<tr>
+<td> access_token
+</td>
+<td> 调用接口凭证
+</td></tr>
+<tr>
+<td> id
+</td>
+<td> 分组id，由微信分配
+</td></tr>
+<tr>
+<td> name
+</td>
+<td> 分组名字（30个字符以内）
+</td></tr>
+</tbody></table>
+<p><b>返回说明</b>
+正常时的返回JSON数据包示例：
+</p>
+<pre>{"errcode": 0, "errmsg": "ok"}
+</pre>
+<p>错误时的JSON数据包示例（该示例为AppID无效错误）：
+</p>
+<pre>{"errcode":40013,"errmsg":"invalid appid"}
+</pre>
+<p><a href="#">全局返回码说明</a>
+</p><p><a href="https://mp.weixin.qq.com/debug/cgi-bin/apiinfo?t=index&amp;type=用户管理&amp;form=修改分组名接口%20/groups/update" class="external text" rel="nofollow" target="_blank">使用网页调试工具调试该接口</a>
+</p>
+<h3> <span class="mw-headline" id=".E7.A7.BB.E5.8A.A8.E7.94.A8.E6.88.B7.E5.88.86.E7.BB.84"><b>移动用户分组</b></span></h3>
+<p><b>接口调用请求说明</b>
+</p>
+<pre>http请求方式: POST（请使用https协议）
+<a href="https://api.weixin.qq.com/cgi-bin/groups/members/update?access_token=ACCESS_TOKEN" class="external free" rel="nofollow" target="_blank">https://api.weixin.qq.com/cgi-bin/groups/members/update?access_token=ACCESS_TOKEN</a>
+POST数据格式：json
+POST数据例子：{"openid":"oDF3iYx0ro3_7jD4HFRDfrjdCM58","to_groupid":108}
+</pre>
+<p><b>参数说明</b>
+</p>
+<table border="1" cellspacing="0" cellpadding="4" align="center" width="640px">
+<tbody><tr>
+<th style="width:240px">参数
+</th>
+<th>说明
+</th></tr>
+<tr>
+<td> access_token
+</td>
+<td> 调用接口凭证
+</td></tr>
+<tr>
+<td> openid
+</td>
+<td> 用户唯一标识符
+</td></tr>
+<tr>
+<td> to_groupid
+</td>
+<td> 分组id
+</td></tr>
+</tbody></table>
+<p><b>返回说明</b>
+正常时的返回JSON数据包示例：
+</p>
+<pre>{"errcode": 0, "errmsg": "ok"}
+</pre>
+<p>错误时的JSON数据包示例（该示例为AppID无效错误）：
+</p>
+<pre>{"errcode":40013,"errmsg":"invalid appid"}
+</pre>
+<p><a href="#">全局返回码说明</a>
+</p><p><a href="https://mp.weixin.qq.com/debug/cgi-bin/apiinfo?t=index&amp;type=用户管理&amp;form=移动用户分组接口%20/groups/members/update" class="external text" rel="nofollow" target="_blank">使用网页调试工具调试该接口</a>
+</p>

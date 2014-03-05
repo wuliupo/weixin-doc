@@ -1,0 +1,64 @@
+<p>开通语音识别功能，用户每次发送语音给公众号时，微信会在推送的语音消息XML数据包中，增加一个Recongnition字段。
+</p><p>注：由于客户端缓存，开发者开启或者关闭语音识别功能，对新关注者立刻生效，对已关注用户需要24小时生效。开发者可以重新关注此帐号进行测试。
+</p><p>开启语音识别后的语音XML数据包如下：
+</p>
+<pre>&lt;xml&gt;
+&lt;ToUserName&gt;&lt;![CDATA[toUser]]&gt;&lt;/ToUserName&gt;
+&lt;FromUserName&gt;&lt;![CDATA[fromUser]]&gt;&lt;/FromUserName&gt;
+&lt;CreateTime&gt;1357290913&lt;/CreateTime&gt;
+&lt;MsgType&gt;&lt;![CDATA[voice]]&gt;&lt;/MsgType&gt;
+&lt;MediaId&gt;&lt;![CDATA[media_id]]&gt;&lt;/MediaId&gt;
+&lt;Format&gt;&lt;![CDATA[Format]]&gt;&lt;/Format&gt;
+&lt;Recognition&gt;&lt;![CDATA[腾讯微信团队]]&gt;&lt;/Recognition&gt;
+&lt;MsgId&gt;1234567890123456&lt;/MsgId&gt;
+&lt;/xml&gt;
+</pre>
+<p>参数说明：
+</p>
+<table border="1" cellspacing="0" cellpadding="4" align="center">
+<tbody><tr>
+<th style="width:180px">参数
+</th>
+<th style="width:470px">描述
+</th></tr>
+<tr>
+<td> ToUserName
+</td>
+<td> <b>开发者</b>微信号
+</td></tr>
+<tr>
+<td> FromUserName
+</td>
+<td> 发送方帐号（一个OpenID）
+</td></tr>
+<tr>
+<td> CreateTime
+</td>
+<td> 消息创建时间 （整型）
+</td></tr>
+<tr>
+<td> MsgType
+</td>
+<td> 语音为voice
+</td></tr>
+<tr>
+<td> MediaID
+</td>
+<td> 语音消息媒体id，可以调用多媒体文件下载接口拉取该媒体
+</td></tr>
+<tr>
+<td> Format
+</td>
+<td> 语音格式：amr
+</td></tr>
+<tr>
+<td> Recognition
+</td>
+<td> 语音识别结果，UTF8编码
+</td></tr>
+<tr>
+<td> MsgID
+</td>
+<td> 消息id，64位整型
+</td></tr>
+</tbody></table>

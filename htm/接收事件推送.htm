@@ -1,0 +1,292 @@
+<h2> <span class="mw-headline" id=".E5.85.B3.E6.B3.A8.2F.E5.8F.96.E6.B6.88.E5.85.B3.E6.B3.A8.E4.BA.8B.E4.BB.B6"><b>关注/取消关注事件</b></span></h2>
+<p>用户在关注与取消关注公众号时，微信会把这个事件推送到开发者填写的URL。方便开发者给用户下发欢迎消息或者做帐号的解绑。
+</p><p><b>微信服务器在五秒内收不到响应会断掉连接，并且重新发起请求，总共重试三次</b>
+</p><p>关于重试的消息排重，推荐使用FromUserName + CreateTime 排重。
+</p><p><b>假如服务器无法保证在五秒内处理并回复，可以直接回复空串，微信服务器不会对此作任何处理，并且不会发起重试。</b> 
+</p><p>推送XML数据包示例：
+</p>
+<pre>&lt;xml&gt;
+&lt;ToUserName&gt;&lt;![CDATA[toUser]]&gt;&lt;/ToUserName&gt;
+&lt;FromUserName&gt;&lt;![CDATA[FromUser]]&gt;&lt;/FromUserName&gt;
+&lt;CreateTime&gt;123456789&lt;/CreateTime&gt;
+&lt;MsgType&gt;&lt;![CDATA[event]]&gt;&lt;/MsgType&gt;
+&lt;Event&gt;&lt;![CDATA[subscribe]]&gt;&lt;/Event&gt;
+&lt;/xml&gt;
+</pre>
+<p>参数说明：
+</p>
+<table border="1" cellspacing="0" cellpadding="4" align="center">
+<tbody><tr>
+<th style="width:180px">参数
+</th>
+<th style="width:470px">描述
+</th></tr>
+<tr>
+<td> ToUserName
+</td>
+<td> <b>开发者</b>微信号
+</td></tr>
+<tr>
+<td> FromUserName
+</td>
+<td> 发送方帐号（一个OpenID）
+</td></tr>
+<tr>
+<td> CreateTime
+</td>
+<td> 消息创建时间 （整型）
+</td></tr>
+<tr>
+<td> MsgType
+</td>
+<td> 消息类型，event
+</td></tr>
+<tr>
+<td> Event
+</td>
+<td> 事件类型，subscribe(订阅)、unsubscribe(取消订阅)
+</td></tr>
+</tbody></table>
+<p><a href="https://mp.weixin.qq.com/debug/cgi-bin/apiinfo?t=index&amp;type=消息接口调试&amp;form=事件消息" class="external text" rel="nofollow" target="_blank">使用网页调试工具调试该接口</a>
+</p>
+<h2> <span class="mw-headline" id=".E6.89.AB.E6.8F.8F.E5.B8.A6.E5.8F.82.E6.95.B0.E4.BA.8C.E7.BB.B4.E7.A0.81.E4.BA.8B.E4.BB.B6"><b>扫描带参数二维码事件</b></span></h2>
+<p>用户扫描带场景值二维码时，可能推送以下两种事件：
+</p>
+<ol><li> 如果用户还未关注公众号，则用户可以关注公众号，关注后微信会将带场景值关注事件推送给开发者。
+</li><li> 如果用户已经关注公众号，则微信会将带场景值扫描事件推送给开发者。
+</li></ol>
+<p><b>1. 用户未关注时，进行关注后的事件推送</b>
+</p><p>推送XML数据包示例：
+</p>
+<pre>&lt;xml&gt;&lt;ToUserName&gt;&lt;![CDATA[toUser]]&gt;&lt;/ToUserName&gt;
+&lt;FromUserName&gt;&lt;![CDATA[FromUser]]&gt;&lt;/FromUserName&gt;
+&lt;CreateTime&gt;123456789&lt;/CreateTime&gt;
+&lt;MsgType&gt;&lt;![CDATA[event]]&gt;&lt;/MsgType&gt;
+&lt;Event&gt;&lt;![CDATA[subscribe]]&gt;&lt;/Event&gt;
+&lt;EventKey&gt;&lt;![CDATA[qrscene_123123]]&gt;&lt;/EventKey&gt;
+&lt;Ticket&gt;&lt;![CDATA[TICKET]]&gt;&lt;/Ticket&gt;
+&lt;/xml&gt;
+</pre>
+<p>参数说明：
+</p>
+<table border="1" cellspacing="0" cellpadding="4" align="center">
+<tbody><tr>
+<th style="width:180px">参数
+</th>
+<th style="width:470px">描述
+</th></tr>
+<tr>
+<td> ToUserName
+</td>
+<td> <b>开发者</b>微信号
+</td></tr>
+<tr>
+<td> FromUserName
+</td>
+<td> 发送方帐号（一个OpenID）
+</td></tr>
+<tr>
+<td> CreateTime
+</td>
+<td> 消息创建时间 （整型）
+</td></tr>
+<tr>
+<td> MsgType
+</td>
+<td> 消息类型，event
+</td></tr>
+<tr>
+<td> Event
+</td>
+<td> 事件类型，subscribe
+</td></tr>
+<tr>
+<td> EventKey
+</td>
+<td> 事件KEY值，qrscene_为前缀，后面为二维码的参数值
+</td></tr>
+<tr>
+<td> Ticket
+</td>
+<td> 二维码的ticket，可用来换取二维码图片
+</td></tr>
+</tbody></table>
+<p><b>2. 用户已关注时的事件推送</b>
+</p><p>推送XML数据包示例：
+</p>
+<pre>&lt;xml&gt;
+&lt;ToUserName&gt;&lt;![CDATA[toUser]]&gt;&lt;/ToUserName&gt;
+&lt;FromUserName&gt;&lt;![CDATA[FromUser]]&gt;&lt;/FromUserName&gt;
+&lt;CreateTime&gt;123456789&lt;/CreateTime&gt;
+&lt;MsgType&gt;&lt;![CDATA[event]]&gt;&lt;/MsgType&gt;
+&lt;Event&gt;&lt;![CDATA[SCAN]]&gt;&lt;/Event&gt;
+&lt;EventKey&gt;&lt;![CDATA[SCENE_VALUE]]&gt;&lt;/EventKey&gt;
+&lt;Ticket&gt;&lt;![CDATA[TICKET]]&gt;&lt;/Ticket&gt;
+&lt;/xml&gt;
+</pre>
+<p>参数说明：
+</p>
+<table border="1" cellspacing="0" cellpadding="4" align="center">
+<tbody><tr>
+<th style="width:180px">参数
+</th>
+<th style="width:470px">描述
+</th></tr>
+<tr>
+<td> ToUserName
+</td>
+<td> <b>开发者</b>微信号
+</td></tr>
+<tr>
+<td> FromUserName
+</td>
+<td> 发送方帐号（一个OpenID）
+</td></tr>
+<tr>
+<td> CreateTime
+</td>
+<td> 消息创建时间 （整型）
+</td></tr>
+<tr>
+<td> MsgType
+</td>
+<td> 消息类型，event
+</td></tr>
+<tr>
+<td> Event
+</td>
+<td> 事件类型，SCAN
+</td></tr>
+<tr>
+<td> EventKey
+</td>
+<td> 事件KEY值，是一个32位无符号整数，即创建二维码时的二维码scene_id
+</td></tr>
+<tr>
+<td> Ticket
+</td>
+<td> 二维码的ticket，可用来换取二维码图片
+</td></tr>
+</tbody></table>
+<p><a href="https://mp.weixin.qq.com/debug/cgi-bin/apiinfo?t=index&amp;type=消息接口调试&amp;form=事件消息" class="external text" rel="nofollow" target="_blank">使用网页调试工具调试该接口</a>
+</p>
+<h2> <span class="mw-headline" id=".E4.B8.8A.E6.8A.A5.E5.9C.B0.E7.90.86.E4.BD.8D.E7.BD.AE.E4.BA.8B.E4.BB.B6"><b>上报地理位置事件</b></span></h2>
+<p>用户同意上报地理位置后，每次进入公众号会话时，都会在进入时上报地理位置，或在进入会话后每5秒上报一次地理位置，公众号可以在公众平台网站中修改以上设置。上报地理位置时，微信会将上报地理位置事件推送到开发者填写的URL。
+</p><p>推送XML数据包示例：
+</p>
+<pre>&lt;xml&gt;
+&lt;ToUserName&gt;&lt;![CDATA[toUser]]&gt;&lt;/ToUserName&gt;
+&lt;FromUserName&gt;&lt;![CDATA[fromUser]]&gt;&lt;/FromUserName&gt;
+&lt;CreateTime&gt;123456789&lt;/CreateTime&gt;
+&lt;MsgType&gt;&lt;![CDATA[event]]&gt;&lt;/MsgType&gt;
+&lt;Event&gt;&lt;![CDATA[LOCATION]]&gt;&lt;/Event&gt;
+&lt;Latitude&gt;23.137466&lt;/Latitude&gt;
+&lt;Longitude&gt;113.352425&lt;/Longitude&gt;
+&lt;Precision&gt;119.385040&lt;/Precision&gt;
+&lt;/xml&gt;
+</pre>
+<p>参数说明：
+</p>
+<table border="1" cellspacing="0" cellpadding="4" align="center">
+<tbody><tr>
+<th style="width:180px">参数
+</th>
+<th style="width:470px">描述
+</th></tr>
+<tr>
+<td> ToUserName
+</td>
+<td> <b>开发者</b>微信号
+</td></tr>
+<tr>
+<td> FromUserName
+</td>
+<td> 发送方帐号（一个OpenID）
+</td></tr>
+<tr>
+<td> CreateTime
+</td>
+<td> 消息创建时间 （整型）
+</td></tr>
+<tr>
+<td> MsgType
+</td>
+<td> 消息类型，event
+</td></tr>
+<tr>
+<td> Event
+</td>
+<td> 事件类型，LOCATION
+</td></tr>
+<tr>
+<td> Latitude
+</td>
+<td> 地理位置纬度
+</td></tr>
+<tr>
+<td> Longitude
+</td>
+<td> 地理位置经度
+</td></tr>
+<tr>
+<td> Precision
+</td>
+<td> 地理位置精度
+</td></tr>
+</tbody></table>
+<p><a href="https://mp.weixin.qq.com/debug/cgi-bin/apiinfo?t=index&amp;type=消息接口调试&amp;form=事件消息" class="external text" rel="nofollow" target="_blank">使用网页调试工具调试该接口</a>
+</p>
+<h2> <span class="mw-headline" id=".E8.87.AA.E5.AE.9A.E4.B9.89.E8.8F.9C.E5.8D.95.E4.BA.8B.E4.BB.B6"><b>自定义菜单事件</b></span></h2>
+<p>用户点击自定义菜单后，如果菜单按钮设置为click类型，则微信会把此次点击事件推送给开发者，注意view类型（跳转到URL）的菜单点击不会上报。
+</p><p>推送XML数据包示例：
+</p>
+<pre>&lt;xml&gt;
+&lt;ToUserName&gt;&lt;![CDATA[toUser]]&gt;&lt;/ToUserName&gt;
+&lt;FromUserName&gt;&lt;![CDATA[FromUser]]&gt;&lt;/FromUserName&gt;
+&lt;CreateTime&gt;123456789&lt;/CreateTime&gt;
+&lt;MsgType&gt;&lt;![CDATA[event]]&gt;&lt;/MsgType&gt;
+&lt;Event&gt;&lt;![CDATA[CLICK]]&gt;&lt;/Event&gt;
+&lt;EventKey&gt;&lt;![CDATA[EVENTKEY]]&gt;&lt;/EventKey&gt;
+&lt;/xml&gt;
+</pre>
+<p>参数说明：
+</p>
+<table border="1" cellspacing="0" cellpadding="4" align="center">
+<tbody><tr>
+<th style="width:180px">参数
+</th>
+<th style="width:470px">描述
+</th></tr>
+<tr>
+<td> ToUserName
+</td>
+<td> <b>开发者</b>微信号
+</td></tr>
+<tr>
+<td> FromUserName
+</td>
+<td> 发送方帐号（一个OpenID）
+</td></tr>
+<tr>
+<td> CreateTime
+</td>
+<td> 消息创建时间 （整型）
+</td></tr>
+<tr>
+<td> MsgType
+</td>
+<td> 消息类型，event
+</td></tr>
+<tr>
+<td> Event
+</td>
+<td> 事件类型，CLICK
+</td></tr>
+<tr>
+<td> EventKey
+</td>
+<td> 事件KEY值，与自定义菜单接口中KEY值对应
+</td></tr>
+</tbody></table>
+<p><a href="https://mp.weixin.qq.com/debug/cgi-bin/apiinfo?t=index&amp;type=消息接口调试&amp;form=事件消息" class="external text" rel="nofollow" target="_blank">使用网页调试工具调试该接口</a>
+</p>

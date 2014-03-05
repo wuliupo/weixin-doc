@@ -1,0 +1,14 @@
+<p>使用接口创建自定义菜单后，开发者还可使用接口查询自定义菜单的结构。
+</p><p><b>请求说明</b>
+</p>
+<pre>http请求方式：GET
+<a href="https://api.weixin.qq.com/cgi-bin/menu/get?access_token=ACCESS_TOKEN" class="external free" rel="nofollow" target="_blank">https://api.weixin.qq.com/cgi-bin/menu/get?access_token=ACCESS_TOKEN</a>
+</pre>
+<p><b>返回说明</b>
+</p>
+<pre>对应创建接口，正确的Json返回结果:
+{"menu":{"button":[{"type":"click","name":"今日歌曲","key":"V1001_TODAY_MUSIC","sub_button":[]},{"type":"click","name":"歌手简介","key":"V1001_TODAY_SINGER","sub_button":[]},{"name":"菜单","sub_button":[{"type":"view","name":"搜索","url":"<a href="http://www.soso.com/" class="external free" rel="nofollow" target="_blank">http://www.soso.com/</a>","sub_button":[]},{"type":"view","name":"视频","url":"<a href="http://v.qq.com/" class="external free" rel="nofollow" target="_blank">http://v.qq.com/</a>","sub_button":[]},{"type":"click","name":"赞一下我们","key":"V1001_GOOD","sub_button":[]}]}]}}
+</pre>
+<p><a href="#">全局返回码说明</a>
+</p><p><a href="https://mp.weixin.qq.com/debug/cgi-bin/apiinfo?t=index&amp;type=自定义菜单&amp;form=自定义菜单查询接口%20/menu/get" class="external text" rel="nofollow" target="_blank">使用网页调试工具调试该接口</a>
+</p>

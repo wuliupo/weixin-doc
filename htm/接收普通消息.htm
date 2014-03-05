@@ -1,0 +1,355 @@
+<p>当普通微信用户向公众账号发消息时，微信服务器将POST消息的XML数据包到开发者填写的URL上。各消息类型的推送XML数据包结构如下。
+</p><p><b>微信服务器在五秒内收不到响应会断掉连接，并且重新发起请求，总共重试三次</b>
+</p><p>关于重试的消息排重，推荐使用msgid排重。
+</p><p><b>假如服务器无法保证在五秒内处理并回复，可以直接回复空串，微信服务器不会对此作任何处理，并且不会发起重试。</b>
+</p>
+<table id="toc" class="toc"><tbody><tr><td><div id="toctitle"><h2>目录</h2> <span class="toctoggle">[<a id="togglelink" class="internal" href="#">隐藏</a>]</span></div>
+<ul>
+<li class="toclevel-1 tocsection-1"><a href="#.E6.96.87.E6.9C.AC.E6.B6.88.E6.81.AF"><span class="tocnumber">1</span> <span class="toctext">文本消息</span></a></li>
+<li class="toclevel-1 tocsection-2"><a href="#.E5.9B.BE.E7.89.87.E6.B6.88.E6.81.AF"><span class="tocnumber">2</span> <span class="toctext">图片消息</span></a></li>
+<li class="toclevel-1 tocsection-3"><a href="#.E8.AF.AD.E9.9F.B3.E6.B6.88.E6.81.AF"><span class="tocnumber">3</span> <span class="toctext">语音消息</span></a></li>
+<li class="toclevel-1 tocsection-4"><a href="#.E8.A7.86.E9.A2.91.E6.B6.88.E6.81.AF"><span class="tocnumber">4</span> <span class="toctext">视频消息</span></a></li>
+<li class="toclevel-1 tocsection-5"><a href="#.E5.9C.B0.E7.90.86.E4.BD.8D.E7.BD.AE.E6.B6.88.E6.81.AF"><span class="tocnumber">5</span> <span class="toctext">地理位置消息</span></a></li>
+<li class="toclevel-1 tocsection-6"><a href="#.E9.93.BE.E6.8E.A5.E6.B6.88.E6.81.AF"><span class="tocnumber">6</span> <span class="toctext">链接消息</span></a></li>
+</ul>
+</td></tr></tbody></table>
+<h3> <span class="mw-headline" id=".E6.96.87.E6.9C.AC.E6.B6.88.E6.81.AF"><b>文本消息</b></span></h3>
+<pre> &lt;xml&gt;
+ &lt;ToUserName&gt;&lt;![CDATA[toUser]]&gt;&lt;/ToUserName&gt;
+ &lt;FromUserName&gt;&lt;![CDATA[fromUser]]&gt;&lt;/FromUserName&gt; 
+ &lt;CreateTime&gt;1348831860&lt;/CreateTime&gt;
+ &lt;MsgType&gt;&lt;![CDATA[text]]&gt;&lt;/MsgType&gt;
+ &lt;Content&gt;&lt;![CDATA[this is a test]]&gt;&lt;/Content&gt;
+ &lt;MsgId&gt;1234567890123456&lt;/MsgId&gt;
+ &lt;/xml&gt;
+</pre>
+<table border="1" cellspacing="0" cellpadding="4" align="center">
+<tbody><tr>
+<th style="width:180px">参数
+</th>
+<th style="width:470px">描述
+</th></tr>
+<tr>
+<td> ToUserName
+</td>
+<td> <b>开发者</b>微信号
+</td></tr>
+<tr>
+<td> FromUserName
+</td>
+<td> 发送方帐号（一个OpenID）
+</td></tr>
+<tr>
+<td> CreateTime
+</td>
+<td> 消息创建时间 （整型）
+</td></tr>
+<tr>
+<td> MsgType
+</td>
+<td> text
+</td></tr>
+<tr>
+<td> Content
+</td>
+<td> 文本消息内容
+</td></tr>
+<tr>
+<td> MsgId
+</td>
+<td> 消息id，64位整型
+</td></tr>
+</tbody></table>
+<p><a href="https://mp.weixin.qq.com/debug/cgi-bin/apiinfo?t=index&amp;type=消息接口调试&amp;form=文本消息" class="external text" rel="nofollow" target="_blank">使用网页调试工具调试该接口</a>
+</p>
+<h3> <span class="mw-headline" id=".E5.9B.BE.E7.89.87.E6.B6.88.E6.81.AF"><b>图片消息</b></span></h3>
+<pre> &lt;xml&gt;
+ &lt;ToUserName&gt;&lt;![CDATA[toUser]]&gt;&lt;/ToUserName&gt;
+ &lt;FromUserName&gt;&lt;![CDATA[fromUser]]&gt;&lt;/FromUserName&gt;
+ &lt;CreateTime&gt;1348831860&lt;/CreateTime&gt;
+ &lt;MsgType&gt;&lt;![CDATA[image]]&gt;&lt;/MsgType&gt;
+ &lt;PicUrl&gt;&lt;![CDATA[this is a url]]&gt;&lt;/PicUrl&gt;
+ &lt;MediaId&gt;&lt;![CDATA[media_id]]&gt;&lt;/MediaId&gt;
+ &lt;MsgId&gt;1234567890123456&lt;/MsgId&gt;
+ &lt;/xml&gt;
+</pre>
+<table border="1" cellspacing="0" cellpadding="4" align="center">
+<tbody><tr>
+<th style="width:180px">参数
+</th>
+<th style="width:470px">描述
+</th></tr>
+<tr>
+<td> ToUserName
+</td>
+<td> <b>开发者</b>微信号
+</td></tr>
+<tr>
+<td> FromUserName
+</td>
+<td> 发送方帐号（一个OpenID）
+</td></tr>
+<tr>
+<td> CreateTime
+</td>
+<td> 消息创建时间 （整型）
+</td></tr>
+<tr>
+<td> MsgType
+</td>
+<td> image
+</td></tr>
+<tr>
+<td> PicUrl
+</td>
+<td> 图片链接
+</td></tr>
+<tr>
+<td> MediaId
+</td>
+<td> 图片消息媒体id，可以调用多媒体文件下载接口拉取数据。
+</td></tr>
+<tr>
+<td> MsgId
+</td>
+<td> 消息id，64位整型
+</td></tr>
+</tbody></table>
+<p><a href="https://mp.weixin.qq.com/debug/cgi-bin/apiinfo?t=index&amp;type=消息接口调试&amp;form=图片消息" class="external text" rel="nofollow" target="_blank">使用网页调试工具调试该接口</a>
+</p>
+<h3> <span class="mw-headline" id=".E8.AF.AD.E9.9F.B3.E6.B6.88.E6.81.AF"><b>语音消息</b></span></h3>
+<pre>&lt;xml&gt;
+&lt;ToUserName&gt;&lt;![CDATA[toUser]]&gt;&lt;/ToUserName&gt;
+&lt;FromUserName&gt;&lt;![CDATA[fromUser]]&gt;&lt;/FromUserName&gt;
+&lt;CreateTime&gt;1357290913&lt;/CreateTime&gt;
+&lt;MsgType&gt;&lt;![CDATA[voice]]&gt;&lt;/MsgType&gt;
+&lt;MediaId&gt;&lt;![CDATA[media_id]]&gt;&lt;/MediaId&gt;
+&lt;Format&gt;&lt;![CDATA[Format]]&gt;&lt;/Format&gt;
+&lt;MsgId&gt;1234567890123456&lt;/MsgId&gt;
+&lt;/xml&gt;
+</pre>
+<table border="1" cellspacing="0" cellpadding="4" align="center">
+<tbody><tr>
+<th style="width:180px">参数
+</th>
+<th style="width:470px">描述
+</th></tr>
+<tr>
+<td> ToUserName
+</td>
+<td> <b>开发者</b>微信号
+</td></tr>
+<tr>
+<td> FromUserName
+</td>
+<td> 发送方帐号（一个OpenID）
+</td></tr>
+<tr>
+<td> CreateTime
+</td>
+<td> 消息创建时间 （整型）
+</td></tr>
+<tr>
+<td> MsgType
+</td>
+<td> 语音为voice
+</td></tr>
+<tr>
+<td> MediaId
+</td>
+<td> 语音消息媒体id，可以调用多媒体文件下载接口拉取数据。
+</td></tr>
+<tr>
+<td> Format
+</td>
+<td> 语音格式，如amr，speex等
+</td></tr>
+<tr>
+<td> MsgID
+</td>
+<td> 消息id，64位整型
+</td></tr></tbody></table>
+<p><a href="https://mp.weixin.qq.com/debug/cgi-bin/apiinfo?t=index&amp;type=消息接口调试&amp;form=语音消息" class="external text" rel="nofollow" target="_blank">使用网页调试工具调试该接口</a>
+</p>
+<h3> <span class="mw-headline" id=".E8.A7.86.E9.A2.91.E6.B6.88.E6.81.AF"><b>视频消息</b></span></h3>
+<pre>&lt;xml&gt;
+&lt;ToUserName&gt;&lt;![CDATA[toUser]]&gt;&lt;/ToUserName&gt;
+&lt;FromUserName&gt;&lt;![CDATA[fromUser]]&gt;&lt;/FromUserName&gt;
+&lt;CreateTime&gt;1357290913&lt;/CreateTime&gt;
+&lt;MsgType&gt;&lt;![CDATA[video]]&gt;&lt;/MsgType&gt;
+&lt;MediaId&gt;&lt;![CDATA[media_id]]&gt;&lt;/MediaId&gt;
+&lt;ThumbMediaId&gt;&lt;![CDATA[thumb_media_id]]&gt;&lt;/ThumbMediaId&gt;
+&lt;MsgId&gt;1234567890123456&lt;/MsgId&gt;
+&lt;/xml&gt;
+</pre>
+<table border="1" cellspacing="0" cellpadding="4" align="center">
+<tbody><tr>
+<th style="width:180px">参数
+</th>
+<th style="width:470px">描述
+</th></tr>
+<tr>
+<td> ToUserName
+</td>
+<td> <b>开发者</b>微信号
+</td></tr>
+<tr>
+<td> FromUserName
+</td>
+<td> 发送方帐号（一个OpenID）
+</td></tr>
+<tr>
+<td> CreateTime
+</td>
+<td> 消息创建时间 （整型）
+</td></tr>
+<tr>
+<td> MsgType
+</td>
+<td> 视频为video
+</td></tr>
+<tr>
+<td> MediaId
+</td>
+<td> 视频消息媒体id，可以调用多媒体文件下载接口拉取数据。
+</td></tr>
+<tr>
+<td> ThumbMediaId
+</td>
+<td> 视频消息缩略图的媒体id，可以调用多媒体文件下载接口拉取数据。
+</td></tr>
+<tr>
+<td> MsgId
+</td>
+<td> 消息id，64位整型
+</td></tr></tbody></table>
+<p><a href="https://mp.weixin.qq.com/debug/cgi-bin/apiinfo?t=index&amp;type=消息接口调试&amp;form=视频消息" class="external text" rel="nofollow" target="_blank">使用网页调试工具调试该接口</a>
+</p>
+<h3> <span class="mw-headline" id=".E5.9C.B0.E7.90.86.E4.BD.8D.E7.BD.AE.E6.B6.88.E6.81.AF"><b>地理位置消息</b></span></h3>
+<pre>&lt;xml&gt;
+&lt;ToUserName&gt;&lt;![CDATA[toUser]]&gt;&lt;/ToUserName&gt;
+&lt;FromUserName&gt;&lt;![CDATA[fromUser]]&gt;&lt;/FromUserName&gt;
+&lt;CreateTime&gt;1351776360&lt;/CreateTime&gt;
+&lt;MsgType&gt;&lt;![CDATA[location]]&gt;&lt;/MsgType&gt;
+&lt;Location_X&gt;23.134521&lt;/Location_X&gt;
+&lt;Location_Y&gt;113.358803&lt;/Location_Y&gt;
+&lt;Scale&gt;20&lt;/Scale&gt;
+&lt;Label&gt;&lt;![CDATA[位置信息]]&gt;&lt;/Label&gt;
+&lt;MsgId&gt;1234567890123456&lt;/MsgId&gt;
+&lt;/xml&gt; 
+</pre>
+<table border="1" cellspacing="0" cellpadding="4" align="center">
+<tbody><tr>
+<th style="width:180px">参数
+</th>
+<th style="width:470px">描述
+</th></tr>
+<tr>
+<td> ToUserName
+</td>
+<td> <b>开发者</b>微信号
+</td></tr>
+<tr>
+<td> FromUserName
+</td>
+<td> 发送方帐号（一个OpenID）
+</td></tr>
+<tr>
+<td> CreateTime
+</td>
+<td> 消息创建时间 （整型）
+</td></tr>
+<tr>
+<td> MsgType
+</td>
+<td> location
+</td></tr>
+<tr>
+<td> Location_X
+</td>
+<td> 地理位置维度
+</td></tr>
+<tr>
+<td> Location_Y
+</td>
+<td> 地理位置经度
+</td></tr>
+<tr>
+<td> Scale
+</td>
+<td> 地图缩放大小
+</td></tr>
+<tr>
+<td> Label
+</td>
+<td> 地理位置信息
+</td></tr>
+<tr>
+<td> MsgId
+</td>
+<td> 消息id，64位整型
+</td></tr>
+</tbody></table>
+<p><a href="https://mp.weixin.qq.com/debug/cgi-bin/apiinfo?t=index&amp;type=消息接口调试&amp;form=地理位置消息" class="external text" rel="nofollow" target="_blank">使用网页调试工具调试该接口</a>
+</p>
+<h3> <span class="mw-headline" id=".E9.93.BE.E6.8E.A5.E6.B6.88.E6.81.AF"><b>链接消息</b></span></h3>
+<pre>&lt;xml&gt;
+&lt;ToUserName&gt;&lt;![CDATA[toUser]]&gt;&lt;/ToUserName&gt;
+&lt;FromUserName&gt;&lt;![CDATA[fromUser]]&gt;&lt;/FromUserName&gt;
+&lt;CreateTime&gt;1351776360&lt;/CreateTime&gt;
+&lt;MsgType&gt;&lt;![CDATA[link]]&gt;&lt;/MsgType&gt;
+&lt;Title&gt;&lt;![CDATA[公众平台官网链接]]&gt;&lt;/Title&gt;
+&lt;Description&gt;&lt;![CDATA[公众平台官网链接]]&gt;&lt;/Description&gt;
+&lt;Url&gt;&lt;![CDATA[url]]&gt;&lt;/Url&gt;
+&lt;MsgId&gt;1234567890123456&lt;/MsgId&gt;
+&lt;/xml&gt; 
+</pre>
+<table border="1" cellspacing="0" cellpadding="4" align="center">
+<tbody><tr>
+<th style="width:180px">参数
+</th>
+<th style="width:470px">描述
+</th></tr>
+<tr>
+<td> ToUserName
+</td>
+<td> 接收方微信号
+</td></tr>
+<tr>
+<td> FromUserName
+</td>
+<td> 发送方微信号，若为普通用户，则是一个OpenID
+</td></tr>
+<tr>
+<td> CreateTime
+</td>
+<td> 消息创建时间
+</td></tr>
+<tr>
+<td> MsgType
+</td>
+<td> 消息类型，link
+</td></tr>
+<tr>
+<td> Title
+</td>
+<td> 消息标题
+</td></tr>
+<tr>
+<td> Description
+</td>
+<td> 消息描述
+</td></tr>
+<tr>
+<td> Url
+</td>
+<td> 消息链接
+</td></tr>
+<tr>
+<td> MsgId
+</td>
+<td> 消息id，64位整型
+</td></tr>
+</tbody></table>
+<p><a href="https://mp.weixin.qq.com/debug/cgi-bin/apiinfo?t=index&amp;type=消息接口调试&amp;form=链接消息" class="external text" rel="nofollow" target="_blank">使用网页调试工具调试该接口</a>
+</p>

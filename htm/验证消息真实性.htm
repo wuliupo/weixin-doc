@@ -1,0 +1,62 @@
+<p>在开发者首次提交验证申请时，微信服务器将发送GET请求到填写的URL上，并且带上四个参数（signature、timestamp、nonce、echostr），开发者通过对签名（即signature）的效验，来判断此条消息的真实性。
+</p><p>此后，每次开发者接收用户消息的时候，微信也都会带上前面三个参数（signature、timestamp、nonce）访问开发者设置的URL，开发者依然通过对签名的效验判断此条消息的真实性。效验方式与首次提交验证申请一致。
+</p>
+<table border="1" cellspacing="0" cellpadding="4" align="center" width="640px">
+<tbody><tr>
+<th style="width:240px">参数
+</th>
+<th>描述
+</th></tr>
+<tr>
+<td> signature
+</td>
+<td> 微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数、nonce参数。
+</td></tr>
+<tr>
+<td> timestamp
+</td>
+<td> 时间戳
+</td></tr>
+
+<tr>
+<td> nonce
+</td>
+<td> 随机数
+</td></tr>
+
+<tr>
+<td> echostr
+</td>
+<td> 随机字符串
+</td></tr>
+</tbody></table>
+<p>开发者通过检验signature对请求进行校验（下面有校验方式）。若确认此次GET请求来自微信服务器，请原样返回echostr参数内容，则接入生效，成为开发者成功，否则接入失败。
+</p>
+<pre><b>加密/校验流程如下：</b>
+1. 将token、timestamp、nonce三个参数进行字典序排序
+2. 将三个参数字符串拼接成一个字符串进行sha1加密
+3. 开发者获得加密后的字符串可与signature对比，标识该请求来源于微信
+</pre>
+<p>检验signature的PHP示例代码：
+</p>
+<pre>private function checkSignature()
+{
+        $signature = $_GET["signature"];
+        $timestamp = $_GET["timestamp"];
+        $nonce = $_GET["nonce"];	
+        		
+	$token = TOKEN;
+	$tmpArr = array($token, $timestamp, $nonce);
+	sort($tmpArr);
+	$tmpStr = implode( $tmpArr );
+	$tmpStr = sha1( $tmpStr );
+	
+	if( $tmpStr == $signature ){
+		return true;
+	}else{
+		return false;
+	}
+}
+</pre>
+<p>PHP示例代码下载：<a href="http://mp.weixin.qq.com/mpres/htmledition/res/wx_sample.zip" class="external text" rel="nofollow" target="_blank">下载</a>
+</p>

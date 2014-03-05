@@ -1,0 +1,73 @@
+<h3> <span class="mw-headline"><b>第一步：申请消息接口</b></span></h3>
+<p>在公众平台网站的高级功能 – 开发模式页，点击“成为开发者”按钮，填写URL和Token，其中URL是开发者用来接收微信服务器数据的接口URL。Token可由开发者任意填写，用作生成签名（该Token会和接口URL中包含的Token进行比对，从而验证安全性）。
+<img alt="填写信息" src="img/%E6%8E%A5%E5%8F%A3%E9%85%8D%E7%BD%AE%E4%BF%A1%E6%81%AF.png" width="875" height="234">
+</p>
+<h3> <span class="mw-headline" id=".E7.AC.AC.E4.BA.8C.E6.AD.A5.EF.BC.9A.E9.AA.8C.E8.AF.81URL.E6.9C.89.E6.95.88.E6.80.A7"><b>第二步：验证URL有效性</b></span></h3>
+<p>开发者提交信息后，微信服务器将发送GET请求到填写的URL上，GET请求携带四个参数：
+</p>
+<table border="1" cellspacing="0" cellpadding="4" align="center" width="640px">
+<tbody><tr>
+<th style="width:240px">参数
+</th>
+<th>描述
+</th></tr>
+<tr>
+<td> signature
+</td>
+<td> 微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数、nonce参数。
+</td></tr>
+<tr>
+<td> timestamp
+</td>
+<td> 时间戳
+</td></tr>
+
+<tr>
+<td> nonce
+</td>
+<td> 随机数
+</td></tr>
+
+<tr>
+<td> echostr
+</td>
+<td> 随机字符串
+</td></tr>
+</tbody></table>
+<p>开发者通过检验signature对请求进行校验（下面有校验方式）。若确认此次GET请求来自微信服务器，请原样返回echostr参数内容，则接入生效，成为开发者成功，否则接入失败。
+</p>
+<pre><b>加密/校验流程如下：</b>
+1. 将token、timestamp、nonce三个参数进行<b>字典序</b>排序
+2. 将三个参数字符串拼接成一个字符串进行sha1加密
+3. 开发者获得加密后的字符串可与signature对比，标识该请求来源于微信
+</pre>
+<p>检验signature的PHP示例代码：
+</p>
+<pre>private function checkSignature()
+{
+$signature = $_GET["signature"];
+$timestamp = $_GET["timestamp"];
+$nonce = $_GET["nonce"];	
+
+$token = TOKEN;
+$tmpArr = array($token, $timestamp, $nonce);
+sort($tmpArr, SORT_STRING);
+$tmpStr = implode( $tmpArr );
+$tmpStr = sha1( $tmpStr );
+
+if( $tmpStr == $signature ){
+return true;
+}else{
+return false;
+}
+}
+</pre>
+<p>PHP示例代码下载：<a href="http://mp.weixin.qq.com/mpres/htmledition/res/wx_sample.zip" class="external text" rel="nofollow" target="_blank">下载</a>
+</p>
+<h3> <span class="mw-headline" id=".E7.AC.AC.E4.B8.89.E6.AD.A5.EF.BC.9A.E6.88.90.E4.B8.BA.E5.BC.80.E5.8F.91.E8.80.85"><b>第三步：成为开发者</b></span></h3>
+<p>验证URL有效性成功后即接入生效，成为开发者。如果公众号类型为服务号（订阅号只能使用普通消息接口），可以在公众平台网站中申请认证，认证成功的服务号将获得众多接口权限，以满足开发者需求。
+</p><p>此后用户每次向公众号发送消息、或者产生自定义菜单点击事件时，响应URL将得到推送。
+</p><p>公众号调用各接口时，一般会获得正确的结果，具体结果可见对应接口的说明。返回错误时，可根据返回码来查询错误原因。<a href="#%E5%85%A8%E5%B1%80%E8%BF%94%E5%9B%9E%E7%A0%81%E8%AF%B4%E6%98%8E" class="external text" rel="nofollow" target="_blank">全局返回码说明</a>
+</p><p>用户向公众号发送消息时，公众号方收到的消息发送者是一个OpenID，是使用用户微信号加密后的结果，每个用户对每个公众号有一个唯一的OpenID。
+</p>
+<p>此外请注意，<b>微信公众号接口只支持80接口</b>。</p>
