@@ -5,7 +5,7 @@
 * 中文官网：<http://weixin.qq.com/>
 * 英文官网：<http://www.wechat.com/>
 * 网页微信：<https://wx.qq.com/>
-* 开发平台：<http://open.weixin.qq.com/> ， 用于第三方手机 SDK 接口，将第三方信息分享到微信好友，朋友圈
+* 开发平台：<http://open.weixin.qq.com/> ，用于第三方 SDK 接口，将信息分享到微信好友，朋友圈
 * 公众平台：<http://mp.weixin.qq.com/> ，用于管理微信公众账号，消息回复等。
 * 微信网页版：<https://wx.qq.com/>
 * 公众平台开发文档：<http://mp.weixin.qq.com/wiki/>
