@@ -20,6 +20,7 @@ $(function(){
     function loadContent(title){
         title=!title || title.length<2 ? '%E9%A6%96%E9%A1%B5' : title.replace('#', '');
         bodyContent.html(placeHolder);
+		$("html, body").animate({ scrollTop: 0 }, 120);
         $.get('htm/'+title+'.htm', function(content){
             bodyContent.html(content);
             title=decodeURIComponent(title);

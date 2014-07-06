@@ -1,0 +1,397 @@
+<h2> <span class="mw-headline"><b>简介</b></span></h2>
+<p>公众平台消息接口为开发者提供了一种新的消息处理方式。</p>
+<h2> <span class="mw-headline"><b>申请消息接口</b></span></h2>
+<p>点击<a href="http://mp.weixin.qq.com/cgi-bin/operadvancedfunc?op=list&amp;t=wxm-developer-api&amp;lang=zh_CN" class="external text" rel="nofollow" target="_blank">申请</a>，填写网址url和token，其中token可由开发者可以任意填写，用作生成签名。</p><p><br>
+<img alt="填写信息" src="img/Callbackprofile.jpg" width="799" height="452"></p>
+<h2><span class="mw-headline"><b>网址接入</b></span></h2>
+<p>公众平台用户提交信息后，微信服务器将发送GET请求到填写的URL上，并且带上四个参数：</p>
+<table border="1" cellspacing="0" cellpadding="4" align="center">
+<tbody><tr>
+<th style="width:180px">参数</th>
+<th style="width:470px">描述</th></tr>
+<tr><td> signature</td>
+<td> 微信加密签名</td></tr>
+<tr>
+<td> timestamp</td>
+<td> 时间戳</td></tr>
+<tr>
+<td> nonce</td>
+<td> 随机数</td></tr>
+<tr>
+<td> echostr</td>
+<td> 随机字符串</td></tr></tbody></table>
+<p>开发者通过检验signature对请求进行校验（下面有校验方式）。若确认此次GET请求来自微信服务器，请原样返回echostr参数内容，则接入生效，否则接入失败。 </p><p>signature结合了开发者填写的token参数和请求中的timestamp参数、nonce参数。</p>
+<pre>加密/校验流程：
+1. 将token、timestamp、nonce三个参数进行字典序排序
+2. 将三个参数字符串拼接成一个字符串进行sha1加密
+3. 开发者获得加密后的字符串可与signature对比，标识该请求来源于微信</pre>
+<p><br></p>
+<h2> <span class="mw-headline"><b>消息推送</b></span></h2>
+<p>当普通微信用户向公众账号发消息时，微信服务器将POST该消息到填写的URL上。结构如下：</p>
+<h3> <span class="mw-headline">文本消息</span></h3>
+<pre> &lt;xml&gt;
+&lt;ToUserName&gt;&lt;![CDATA[toUser]]&gt;&lt;/ToUserName&gt;
+&lt;FromUserName&gt;&lt;![CDATA[fromUser]]&gt;&lt;/FromUserName&gt; 
+&lt;CreateTime&gt;1348831860&lt;/CreateTime&gt;
+&lt;MsgType&gt;&lt;![CDATA[text]]&gt;&lt;/MsgType&gt;
+&lt;Content&gt;&lt;![CDATA[this is a test]]&gt;&lt;/Content&gt;
+&lt;MsgId&gt;1234567890123456&lt;/MsgId&gt;
+&lt;/xml&gt;</pre>
+<table border="1" cellspacing="0" cellpadding="4" align="center">
+<tbody><tr>
+<th style="width:180px">参数</th>
+<th style="width:470px">描述</th></tr>
+<tr>
+<td> ToUserName</td>
+<td> <b>开发者</b>微信号</td></tr>
+<tr>
+<td> FromUserName</td>
+<td> 发送方帐号（一个OpenID）</td></tr>
+<tr>
+<td> CreateTime</td>
+<td> 消息创建时间 （整型）</td></tr>
+<tr>
+<td> MsgType</td>
+<td> text</td></tr>
+<tr>
+<td> Content</td>
+<td> 文本消息内容</td></tr>
+<tr>
+<td> MsgId</td>
+<td> 消息id，64位整型</td></tr></tbody></table>
+<h3> <span class="mw-headline">图片消息</span></h3>
+<pre> &lt;xml&gt;
+&lt;ToUserName&gt;&lt;![CDATA[toUser]]&gt;&lt;/ToUserName&gt;
+&lt;FromUserName&gt;&lt;![CDATA[fromUser]]&gt;&lt;/FromUserName&gt;
+&lt;CreateTime&gt;1348831860&lt;/CreateTime&gt;
+&lt;MsgType&gt;&lt;![CDATA[image]]&gt;&lt;/MsgType&gt;
+&lt;PicUrl&gt;&lt;![CDATA[this is a url]&gt;&lt;/PicUrl&gt;
+&lt;MsgId&gt;1234567890123456&lt;/MsgId&gt;
+&lt;/xml&gt;</pre>
+<table border="1" cellspacing="0" cellpadding="4" align="center">
+<tbody><tr>
+<th style="width:180px">参数</th>
+<th style="width:470px">描述</th></tr>
+<tr>
+<td> ToUserName</td>
+<td> <b>开发者</b>微信号</td></tr>
+<tr>
+<td> FromUserName</td>
+<td> 发送方帐号（一个OpenID）</td></tr>
+<tr>
+<td> CreateTime</td>
+<td> 消息创建时间 （整型）</td></tr>
+<tr>
+<td> MsgType</td>
+<td> image</td></tr>
+<tr>
+<td> PicUrl</td>
+<td> 图片链接</td></tr>
+<tr>
+<td> MsgId</td>
+<td> 消息id，64位整型</td></tr></tbody></table>
+<h3> <span class="mw-headline">地理位置消息</span></h3>
+<pre>&lt;xml&gt;
+&lt;ToUserName&gt;&lt;![CDATA[toUser]]&gt;&lt;/ToUserName&gt;
+&lt;FromUserName&gt;&lt;![CDATA[fromUser]]&gt;&lt;/FromUserName&gt;
+&lt;CreateTime&gt;1351776360&lt;/CreateTime&gt;
+&lt;MsgType&gt;&lt;![CDATA[location]]&gt;&lt;/MsgType&gt;
+&lt;Location_X&gt;23.134521&lt;/Location_X&gt;
+&lt;Location_Y&gt;113.358803&lt;/Location_Y&gt;
+&lt;Scale&gt;20&lt;/Scale&gt;
+&lt;Label&gt;&lt;![CDATA[位置信息]]&gt;&lt;/Label&gt;
+&lt;MsgId&gt;1234567890123456&lt;/MsgId&gt;
+&lt;/xml&gt; </pre>
+<table border="1" cellspacing="0" cellpadding="4" align="center">
+<tbody><tr>
+<th style="width:180px">参数</th>
+<th style="width:470px">描述</th></tr>
+<tr>
+<td> ToUserName</td>
+<td> <b>开发者</b>微信号</td></tr>
+<tr>
+<td> FromUserName</td>
+<td> 发送方帐号（一个OpenID）</td></tr>
+<tr>
+<td> CreateTime</td>
+<td> 消息创建时间 （整型）</td></tr>
+<tr><td> MsgType</td>
+<td> location</td></tr>
+<tr>
+<td> Location_X</td>
+<td> 地理位置维度</td></tr>
+<tr>
+<td> Location_Y</td>
+<td> 地理位置精度</td></tr>
+<tr>
+<td> Scale</td>
+<td> 地图缩放大小</td></tr>
+<tr>
+<td> Label</td>
+<td> 地理位置信息</td></tr>
+<tr>
+<td> MsgId</td>
+<td> 消息id，64位整型</td></tr></tbody></table>
+<h3> <span class="mw-headline" >链接消息</span></h3>
+<pre>&lt;xml&gt;
+&lt;ToUserName&gt;&lt;![CDATA[toUser]]&gt;&lt;/ToUserName&gt;
+&lt;FromUserName&gt;&lt;![CDATA[fromUser]]&gt;&lt;/FromUserName&gt;
+&lt;CreateTime&gt;1351776360&lt;/CreateTime&gt;
+&lt;MsgType&gt;&lt;![CDATA[link]]&gt;&lt;/MsgType&gt;
+&lt;Title&gt;&lt;![CDATA[公众平台官网链接]]&gt;&lt;/Title&gt;
+&lt;Description&gt;&lt;![CDATA[公众平台官网链接]]&gt;&lt;/Description&gt;
+&lt;Url&gt;&lt;![CDATA[url]]&gt;&lt;/Url&gt;
+&lt;MsgId&gt;1234567890123456&lt;/MsgId&gt;
+&lt;/xml&gt; </pre>
+<table border="1" cellspacing="0" cellpadding="4" align="center">
+<tbody><tr>
+<th style="width:180px">参数</th>
+<th style="width:470px">描述</th></tr>
+<tr>
+<td> ToUserName</td>
+<td> 接收方微信号</td></tr>
+<tr>
+<td> FromUserName</td>
+<td> 发送方微信号，若为普通用户，则是一个OpenID</td></tr>
+<tr>
+<td> CreateTime</td>
+<td> 消息创建时间</td></tr>
+<tr>
+<td> MsgType</td>
+<td> 消息类型，link</td></tr>
+<tr>
+<td> Title</td>
+<td> 消息标题</td></tr>
+<tr>
+<td> Description</td>
+<td> 消息描述</td></tr><tr>
+<td> Url</td>
+<td> 消息链接</td></tr>
+<tr>
+<td> MsgId</td>
+<td> 消息id，64位整型</td></tr></tbody></table>
+<h3> <span class="mw-headline">事件推送</span></h3>
+<p>事件推送只支持微信4.5版本，目前仅开启自定义菜单接口事件推送。其余功能即将开放，敬请期待。 </p>
+<pre>&lt;xml&gt;&lt;ToUserName&gt;&lt;![CDATA[toUser]]&gt;&lt;/ToUserName&gt;
+&lt;FromUserName&gt;&lt;![CDATA[FromUser]]&gt;&lt;/FromUserName&gt;
+&lt;CreateTime&gt;123456789&lt;/CreateTime&gt;
+&lt;MsgType&gt;&lt;![CDATA[event]]&gt;&lt;/MsgType&gt;
+&lt;Event&gt;&lt;![CDATA[EVENT]]&gt;&lt;/Event&gt;
+&lt;EventKey&gt;&lt;![CDATA[EVENTKEY]]&gt;&lt;/EventKey&gt;
+&lt;/xml&gt;</pre>
+<table border="1" cellspacing="0" cellpadding="4" align="center">
+<tbody><tr>
+<th style="width:180px">参数</th>
+<th style="width:470px">描述</th></tr>
+<tr>
+<td> ToUserName</td>
+<td> 接收方微信号</td></tr>
+<tr>
+<td> FromUserName</td>
+<td> 发送方微信号，若为普通用户，则是一个OpenID</td></tr>
+<tr>
+<td> CreateTime</td>
+<td> 消息创建时间</td></tr>
+<tr>
+<td> MsgType</td>
+<td> 消息类型，event</td></tr>
+<tr>
+<td> Event</td>
+<td> 事件类型，subscribe(订阅)、unsubscribe(取消订阅)、CLICK(自定义菜单点击事件)</td></tr>
+<tr>
+<td> EventKey</td>
+<td> 事件KEY值，与自定义菜单接口中KEY值对应</td></tr></tbody></table>
+<p><b>扫描带场景值二维码事件</b></p><p>触发条件：用户已关注该公众帐号，扫描了带场景值的二维码。</p><p>数据格式说明：</p>
+<pre>&lt;xml&gt;&lt;ToUserName&gt;&lt;![CDATA[toUser]]&gt;&lt;/ToUserName&gt;
+&lt;FromUserName&gt;&lt;![CDATA[FromUser]]&gt;&lt;/FromUserName&gt;
+&lt;CreateTime&gt;123456789&lt;/CreateTime&gt;
+&lt;MsgType&gt;&lt;![CDATA[event]]&gt;&lt;/MsgType&gt;
+&lt;Event&gt;&lt;![CDATA[scan]]&gt;&lt;/Event&gt;
+&lt;EventKey&gt;&lt;![CDATA[SCENE_VALUE]]&gt;&lt;/EventKey&gt;
+&lt;/xml&gt;</pre>
+<table border="1" cellspacing="0" cellpadding="4" align="center">
+<tbody><tr>
+<th style="width:180px">参数</th>
+<th style="width:470px">描述</th></tr>
+<tr>
+<td> ToUserName</td>
+<td> 接收方微信号</td></tr>
+<tr>
+<td> FromUserName</td>
+<td> 发送方微信号，若为普通用户，则是一个OpenID</td></tr>
+<tr>
+<td> CreateTime</td>
+<td> 消息创建时间</td></tr>
+<tr>
+<td> MsgType</td>
+<td> 消息类型，event</td></tr>
+<tr>
+<td> Event</td>
+<td> 事件类型，scan</td></tr>
+<tr>
+<td> EventKey</td>
+<td> 事件KEY值，是一个32位无符号整数。</td></tr></tbody></table>
+<p><b>通过带场景值二维码订阅事件</b></p><p>触发条件：用户通过带场景值二维码订阅公众号。</p><p>数据格式说明：</p>
+<pre>&lt;xml&gt;&lt;ToUserName&gt;&lt;![CDATA[toUser]]&gt;&lt;/ToUserName&gt;
+&lt;FromUserName&gt;&lt;![CDATA[FromUser]]&gt;&lt;/FromUserName&gt;
+&lt;CreateTime&gt;123456789&lt;/CreateTime&gt;
+&lt;MsgType&gt;&lt;![CDATA[event]]&gt;&lt;/MsgType&gt;
+&lt;Event&gt;&lt;![CDATA[subscribe]]&gt;&lt;/Event&gt;
+&lt;EventKey&gt;&lt;![CDATA[qrscene_123123]]&gt;&lt;/EventKey&gt;
+&lt;/xml&gt;</pre>
+<table border="1" cellspacing="0" cellpadding="4" align="center">
+<tbody><tr>
+<th style="width:180px">参数</th>
+<th style="width:470px">描述</th></tr>
+<tr>
+<td> ToUserName</td>
+<td> 接收方微信号</td></tr>
+<tr>
+<td> FromUserName</td>
+<td> 发送方微信号，若为普通用户，则是一个OpenID</td></tr>
+<tr>
+<td> CreateTime</td>
+<td> 消息创建时间</td></tr>
+<tr>
+<td> MsgType</td>
+<td> 消息类型，event</td></tr>
+<tr>
+<td> Event</td>
+<td> 事件类型，subscribe</td></tr>
+<tr>
+<td> EventKey</td>
+<td> 事件KEY值，qrscene_为前缀，后面为二维码的场景值。</td></tr></tbody></table>
+<h2> <span class="mw-headline"><b>消息回复</b></span></h2>
+<p>对于每一个POST请求，开发者在响应包中返回特定xml结构，对该消息进行响应（现支持回复文本、图文、语音、视频、<b>音乐</b>和对收到的消息进行星标操作）。 </p><p>微信服务器在<b>五秒内</b>收不到响应会断掉连接。</p><p>回复xml结构如下：</p>
+<h3> <span class="mw-headline">回复文本消息</span></h3>
+<pre> &lt;xml&gt;
+&lt;ToUserName&gt;&lt;![CDATA[toUser]]&gt;&lt;/ToUserName&gt;
+&lt;FromUserName&gt;&lt;![CDATA[fromUser]]&gt;&lt;/FromUserName&gt;
+&lt;CreateTime&gt;12345678&lt;/CreateTime&gt;
+&lt;MsgType&gt;&lt;![CDATA[text]]&gt;&lt;/MsgType&gt;
+&lt;Content&gt;&lt;![CDATA[content]]&gt;&lt;/Content&gt;
+&lt;FuncFlag&gt;0&lt;/FuncFlag&gt;
+&lt;/xml&gt;</pre>
+<table border="1" cellspacing="0" cellpadding="4" align="center">
+<tbody><tr>
+<th style="width:180px">参数</th>
+<th style="width:470px">描述</th></tr>
+<tr>
+<td> ToUserName</td>
+<td> 接收方帐号（收到的OpenID）</td></tr>
+<tr>
+<td> FromUserName</td>
+<td> 开发者微信号</td></tr>
+<tr>
+<td> CreateTime</td>
+<td> 消息创建时间</td></tr>
+<tr>
+<td> MsgType</td>
+<td> text</td></tr>
+<tr>
+<td> Content</td>
+<td> 回复的消息内容,长度不超过2048字节</td></tr>
+<tr>
+<td> FuncFlag</td>
+<td> 位0x0001被标志时，星标刚收到的消息。</td></tr></tbody></table>
+<h3> <span class="mw-headline">回复音乐消息</span></h3>
+<pre> &lt;xml&gt;
+&lt;ToUserName&gt;&lt;![CDATA[toUser]]&gt;&lt;/ToUserName&gt;
+&lt;FromUserName&gt;&lt;![CDATA[fromUser]]&gt;&lt;/FromUserName&gt;
+&lt;CreateTime&gt;12345678&lt;/CreateTime&gt;
+&lt;MsgType&gt;&lt;![CDATA[music]]&gt;&lt;/MsgType&gt;
+&lt;Music&gt;
+&lt;Title&gt;&lt;![CDATA[TITLE]]&gt;&lt;/Title&gt;
+&lt;Description&gt;&lt;![CDATA[DESCRIPTION]]&gt;&lt;/Description&gt;
+&lt;MusicUrl&gt;&lt;![CDATA[MUSIC_Url]]&gt;&lt;/MusicUrl&gt;
+&lt;HQMusicUrl&gt;&lt;![CDATA[HQ_MUSIC_Url]]&gt;&lt;/HQMusicUrl&gt;
+&lt;/Music&gt;
+&lt;FuncFlag&gt;0&lt;/FuncFlag&gt;
+&lt;/xml&gt;</pre>
+<table border="1" cellspacing="0" cellpadding="4" align="center">
+<tbody><tr>
+<th style="width:180px">参数</th>
+<th style="width:470px">描述</th></tr>
+<tr>
+<td> ToUserName</td>
+<td> 接收方帐号（收到的OpenID）</td></tr>
+<tr>
+<td> FromUserName</td>
+<td> 开发者微信号</td></tr>
+<tr>
+<td> CreateTime</td>
+<td> 消息创建时间</td></tr>
+<tr>
+<td> MsgType</td>
+<td> music</td></tr>
+<tr>
+<td> MusicUrl</td>
+<td> 音乐链接</td></tr>
+<tr>
+<td> HQMusicUrl</td>
+<td> 高质量音乐链接，WIFI环境优先使用该链接播放音乐</td></tr>
+<tr>
+<td> FuncFlag</td>
+<td> 位0x0001被标志时，星标刚收到的消息。</td></tr></tbody></table>
+<h3> <span class="mw-headline">回复图文消息</span></h3>
+<pre> &lt;xml&gt;
+&lt;ToUserName&gt;&lt;![CDATA[toUser]]&gt;&lt;/ToUserName&gt;
+&lt;FromUserName&gt;&lt;![CDATA[fromUser]]&gt;&lt;/FromUserName&gt;
+&lt;CreateTime&gt;12345678&lt;/CreateTime&gt;
+&lt;MsgType&gt;&lt;![CDATA[news]]&gt;&lt;/MsgType&gt;
+&lt;ArticleCount&gt;2&lt;/ArticleCount&gt;
+&lt;Articles&gt;
+&lt;item&gt;
+&lt;Title&gt;&lt;![CDATA[title1]]&gt;&lt;/Title&gt; 
+&lt;Description&gt;&lt;![CDATA[description1]]&gt;&lt;/Description&gt;
+&lt;PicUrl&gt;&lt;![CDATA[picurl]]&gt;&lt;/PicUrl&gt;
+&lt;Url&gt;&lt;![CDATA[url]]&gt;&lt;/Url&gt;
+&lt;/item&gt;
+&lt;item&gt;
+&lt;Title&gt;&lt;![CDATA[title]]&gt;&lt;/Title&gt;
+&lt;Description&gt;&lt;![CDATA[description]]&gt;&lt;/Description&gt;
+&lt;PicUrl&gt;&lt;![CDATA[picurl]]&gt;&lt;/PicUrl&gt;
+&lt;Url&gt;&lt;![CDATA[url]]&gt;&lt;/Url&gt;
+&lt;/item&gt;
+&lt;/Articles&gt;
+&lt;FuncFlag&gt;1&lt;/FuncFlag&gt;
+&lt;/xml&gt; </pre>
+<table border="1" cellspacing="0" cellpadding="4" align="center">
+<tbody><tr>
+<th style="width:180px">参数</th>
+<th style="width:470px">描述</th></tr>
+<tr>
+<td> ToUserName</td>
+<td> 接收方帐号（收到的OpenID）</td></tr>
+<tr>
+<td> FromUserName</td>
+<td> 开发者微信号</td></tr>
+<tr>
+<td> CreateTime</td>
+<td> 消息创建时间</td></tr>
+<tr>
+<td> MsgType</td>
+<td> news</td></tr>
+<tr>
+<td> ArticleCount</td>
+<td> 图文消息个数，限制为10条以内</td></tr>
+<tr>
+<td> Articles</td>
+<td> 多条图文消息信息，默认第一个item为大图</td></tr>
+<tr>
+<td> Title</td>
+<td> 图文消息标题</td></tr>
+<tr>
+<td> Description</td>
+<td> 图文消息描述</td></tr>
+<tr>
+<td> PicUrl</td>
+<td> 图片链接，支持JPG、PNG格式，较好的效果为大图640*320，小图80*80，限制图片链接的域名需要与开发者填写的基本资料中的Url一致</td></tr>
+<tr>
+<td> Url</td>
+<td> 点击图文消息跳转链接</td></tr></tbody></table>
+<p><br></p>
+<h2> <span class="mw-headline"><b>注意事项</b></span></h2>
+<p>1.用户OpenID对一个公众号是固定唯一的串</p><p>2.请使用80端口</p>
+<h2> <span class="mw-headline"><b>示例代码</b></span></h2>
+<p>PHP：<a href="http://mp.weixin.qq.com/mpres/htmledition/res/wx_sample.zip" class="external text" rel="nofollow" target="_blank">下载</a></p>
